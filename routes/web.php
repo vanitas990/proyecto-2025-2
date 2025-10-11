@@ -6,6 +6,8 @@ use App\Models\Estudiante;
 
 use App\Http\Controllers\Estudiantes\EstudiantesController;
 
+use App\Http\Controllers\Jugadores\JugadoresController;
+
 Route::get('/', function () {
 
    /* $estudiante = new Estudiante();
@@ -41,3 +43,10 @@ Route::get('/hello', function () {
 })->name('hello');
 
 Route::get('/estudiantes/index',[EstudiantesController::class,'index'])->name('estudiantes.index');
+
+
+
+Route::get('/jugadores', [JugadoresController::class, 'index'])->name('jugadores.index');
+Route::get('/jugadores/create', [JugadoresController::class, 'create'])->name('jugadores.create');
+Route::post('/jugadores', [JugadoresController::class, 'store'])->name('jugadores.store');
+Route::delete('/jugadores/{id}', [JugadoresController::class, 'destroy'])->name('jugadores.destroy');
