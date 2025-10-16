@@ -41,7 +41,6 @@ class JugadoresController extends Controller
         // 🧩 Crea el jugador
         Jugador::create($validatedData);
 
-        // 🔁 Redirige a la lista con mensaje de éxito
         return redirect()->route('jugadores.index')
                          ->with('success', 'Jugador creado correctamente.');
     }

@@ -42,8 +42,11 @@ Route::get('/hello', function () {
     return view('hello');
 })->name('hello');
 
-Route::get('/estudiantes/index',[EstudiantesController::class,'index'])->name('estudiantes.index');
 
+Route::get('/estudiantes/index', [EstudiantesController::class, 'index'])->name('estudiantes.index');
+Route::get('/estudiantes/create', [EstudiantesController::class, 'create'])->name('estudiantes.create');
+Route::post('/estudiantes', [EstudiantesController::class, 'store'])->name('estudiantes.store');
+Route::delete('/estudiantes/{id}', [EstudiantesController::class, 'destroy'])->name('estudiantes.destroy');
 
 
 Route::get('/jugadores', [JugadoresController::class, 'index'])->name('jugadores.index');

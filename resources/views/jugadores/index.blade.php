@@ -98,6 +98,35 @@
             font-weight: bold;
         }
         
+        /* BOTÓN VOLVER AL MENÚ PRINCIPAL (NUEVO ESTILO) */
+        .btn-menu {
+            display: inline-block;
+            background-color: #41b8c1ff; /* Color gris similar a la imagen */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px; /* Bordes menos redondeados que los otros botones */
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-menu:hover {
+            background-color: #3a6ef1ff; /* Color gris un poco más oscuro al pasar el mouse */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            color: white;
+        }
+        
+        .btn-menu::before {
+            content: "A";
+            margin-right: 8px;
+            font-weight: bold;
+        }
+        
         .btn-primary {
             display: inline-flex;
             align-items: center;
@@ -108,6 +137,7 @@
             text-decoration: none;
             font-weight: bold;
             margin-bottom: 30px;
+            margin-left: 15px; /* Separación del botón de volver */
             box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
             transition: all 0.3s ease;
         }
@@ -274,6 +304,12 @@
             .player-actions {
                 align-self: flex-end;
             }
+
+            .btn-primary {
+                margin-left: 0;
+                margin-top: 10px;
+                display: block;
+            }
         }
     </style>
 </head>
@@ -286,7 +322,7 @@
             <h1>Lista de Jugadores</h1>
             <p class="header-subtitle">Gestiona tu equipo de forma divertida</p>
         </header>
-        
+
         <div class="content">
             {{-- ✅ Mensaje de éxito --}}
             @if (session('success'))
@@ -294,6 +330,9 @@
                     {{ session('success') }}
                 </div>
             @endif
+
+            {{-- 🏠 Botón para volver al menú principal (ESTILO ACTUALIZADO) --}}
+            <a href="{{ url('/') }}" class="btn-menu">Volver al Menú Principal</a>
 
             {{-- ➕ Enlace para crear nuevo jugador --}}
             <a href="{{ route('jugadores.create') }}" class="btn-primary">Nuevo jugador</a>
