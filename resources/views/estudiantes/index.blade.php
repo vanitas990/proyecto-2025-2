@@ -19,6 +19,7 @@
         body {
             background-color: #f8f9fa;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-bottom: 2rem;
         }
         
         .header-container {
@@ -67,8 +68,13 @@
             transform: translateY(-2px);
         }
         
+        .btn-info {
+            background: linear-gradient(135deg, #4cc9f0, #3a86ff);
+            border: none;
+        }
+        
         .btn-danger {
-            background-color: var(--accent);
+            background: linear-gradient(135deg, #f72585, #d90429);
             border: none;
         }
         
@@ -103,6 +109,23 @@
             justify-content: space-between;
             margin-bottom: 1.5rem;
         }
+        
+        .btn-hover-effect {
+            transition: all 0.3s ease;
+        }
+        
+        .btn-hover-effect:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .student-table tbody tr {
+            transition: all 0.2s ease;
+        }
+        
+        .student-table tbody tr:hover {
+            background-color: rgba(67, 97, 238, 0.05);
+        }
     </style>
 </head>
 <body>
@@ -114,7 +137,7 @@
                     <p class="lead">Administra el registro de estudiantes del sistema</p>
                 </div>
                 <div class="col-md-6 text-end">
-                    <a href="{{ route('estudiantes.create') }}" class="btn btn-light me-2">
+                    <a href="http://127.0.0.1:8000/estudiantes/create" class="btn btn-light me-2">
                         <i class="fas fa-plus-circle me-2"></i>Nuevo Estudiante
                     </a>
                 </div>
@@ -146,7 +169,7 @@
             <div class="card-body">
                 @if($estudiantes->count() > 0)
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover">
+                    <table class="table table-striped table-hover student-table">
                         <thead>
                             <tr>
                                 <th>Código</th>
@@ -163,23 +186,18 @@
                                 <td>{{ $estudiante->codigo }}</td>
                                 <td>{{ $estudiante->nombres }}</td>
                                 <td>{{ $estudiante->pri_ape }}</td>
-                                <td>{{ $estudiante->seg_ape }}</td>
+                                <td>{{ $estudiante->seg_ape ?? 'N/A' }}</td>
                                 <td>{{ $estudiante->dni }}</td>
                                 <td>
                                     <div class="action-buttons">
-                                        <button class="btn btn-sm btn-info" title="Editar">
+                                        <!-- Botón de Editar -->
+                                        <a href="{{ route('estudiantes.edit', $estudiante->id) }}" class="btn btn-sm btn-info btn-hover-effect" title="Editar">
                                             <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-warning" title="Ver detalles">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                        <form action="{{ route('estudiantes.destroy', $estudiante->id) }}" method="POST" style="display: inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger" title="Eliminar" onclick="return confirm('¿Estás seguro de eliminar este estudiante?')">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
+                                        </a>
+                                        <!-- Botón de Eliminar - Ahora redirige a la página de confirmación -->
+                                        <a href="{{ route('estudiantes.delete', $estudiante->id) }}" class="btn btn-sm btn-danger btn-hover-effect" title="Eliminar">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
                                     </div>
                                 </td>
                             </tr>
@@ -192,7 +210,7 @@
                     <i class="fas fa-user-graduate"></i>
                     <h4>No hay estudiantes registrados</h4>
                     <p>Comienza agregando el primer estudiante al sistema</p>
-                    <a href="{{ route('estudiantes.create') }}" class="btn btn-primary mt-3">
+                    <a href="http://127.0.0.1:8000/estudiantes/create" class="btn btn-primary mt-3">
                         <i class="fas fa-plus-circle me-2"></i>Registrar Primer Estudiante
                     </a>
                 </div>
@@ -205,16 +223,26 @@
     <script>
         // Script para mejorar la interactividad
         document.addEventListener('DOMContentLoaded', function() {
-            // Animación para los botones
-            const buttons = document.querySelectorAll('.btn');
-            buttons.forEach(btn => {
-                btn.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-2px)';
-                    this.style.transition = 'transform 0.2s ease';
+            // Cerrar automáticamente las alertas después de 5 segundos
+            setTimeout(() => {
+                const alerts = document.querySelectorAll('.alert');
+                alerts.forEach(alert => {
+                    const bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+                });
+            }, 5000);
+            
+            // Efecto hover para las filas de la tabla
+            const tableRows = document.querySelectorAll('.student-table tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.01)';
+                    this.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
                 });
                 
-                btn.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
+                row.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                    this.style.boxShadow = 'none';
                 });
             });
         });

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('pri_ape', length: 120);
             $table->string('seg_ape', length: 100);
             $table->string('dni', length: 8)->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

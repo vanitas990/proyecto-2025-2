@@ -22,17 +22,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/hola', function () {
-    return 'Hello friends';
-})->name('saludos' );
-
 Route::get('/bienvenidos', function () {
     return view('bienvenidos');
 })->name('bienvenidos');
-
-Route::get('/hola', function () {
-    return 'Hello friends';
-})->name('saludos' );
 
 Route::get('/winter-forever', function () {
     return view('winter-forever');
@@ -43,10 +35,20 @@ Route::get('/hello', function () {
 })->name('hello');
 
 
-Route::get('/estudiantes/index', [EstudiantesController::class, 'index'])->name('estudiantes.index');
+// Rutas para Estudiantes
+// routes/web.php
+
+// Rutas existentes...
+Route::get('/estudiantes', [EstudiantesController::class, 'index'])->name('estudiantes.index');
 Route::get('/estudiantes/create', [EstudiantesController::class, 'create'])->name('estudiantes.create');
 Route::post('/estudiantes', [EstudiantesController::class, 'store'])->name('estudiantes.store');
+Route::get('/estudiantes/{id}/edit', [EstudiantesController::class, 'edit'])->name('estudiantes.edit');
+Route::put('/estudiantes/{id}', [EstudiantesController::class, 'update'])->name('estudiantes.update');
 Route::delete('/estudiantes/{id}', [EstudiantesController::class, 'destroy'])->name('estudiantes.destroy');
+
+// Nueva ruta para la página de confirmación de eliminación
+Route::get('/estudiantes/{id}/delete', [EstudiantesController::class, 'delete'])->name('estudiantes.delete');
+
 
 
 Route::get('/jugadores', [JugadoresController::class, 'index'])->name('jugadores.index');
