@@ -98,13 +98,12 @@
             font-weight: bold;
         }
         
-        /* BOTÓN VOLVER AL MENÚ PRINCIPAL (NUEVO ESTILO) */
         .btn-menu {
             display: inline-block;
-            background-color: #41b8c1ff; /* Color gris similar a la imagen */
+            background-color: #41b8c1ff;
             color: white;
             padding: 10px 20px;
-            border-radius: 5px; /* Bordes menos redondeados que los otros botones */
+            border-radius: 5px;
             text-decoration: none;
             font-weight: bold;
             margin-bottom: 20px;
@@ -115,7 +114,7 @@
         }
         
         .btn-menu:hover {
-            background-color: #3a6ef1ff; /* Color gris un poco más oscuro al pasar el mouse */
+            background-color: #3a6ef1ff;
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
             color: white;
@@ -137,7 +136,7 @@
             text-decoration: none;
             font-weight: bold;
             margin-bottom: 30px;
-            margin-left: 15px; /* Separación del botón de volver */
+            margin-left: 15px;
             box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
             transition: all 0.3s ease;
         }
@@ -153,6 +152,58 @@
             font-size: 1.2rem;
         }
         
+        /* 🆕 ESTILOS PARA BOTÓN EDITAR */
+        .btn-edit {
+            background-color: var(--primary);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-edit:hover {
+            background-color: var(--secondary);
+            transform: scale(1.05);
+        }
+
+        .btn-edit::before {
+            content: "✏️";
+            margin-right: 5px;
+        }
+
+        /* 🆕 ESTILOS PARA BOTÓN ELIMINAR (AHORA ES UN ENLACE) */
+        .btn-delete {
+            background-color: var(--accent);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-delete:hover {
+            background-color: #d81159;
+            transform: scale(1.05);
+        }
+
+        .btn-delete::before {
+            content: "×";
+            margin-right: 5px;
+            font-size: 1.1rem;
+        }
+
         .empty-state {
             text-align: center;
             padding: 40px;
@@ -214,32 +265,10 @@
             border-radius: 20px;
         }
         
-        .player-actions form {
-            margin: 0;
-        }
-        
-        .btn-danger {
-            background-color: var(--accent);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: bold;
-            display: inline-flex;
+        .player-actions {
+            display: flex;
             align-items: center;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-danger:hover {
-            background-color: #d81159;
-            transform: scale(1.05);
-        }
-        
-        .btn-danger::before {
-            content: "×";
-            margin-right: 5px;
-            font-size: 1.1rem;
+            gap: 10px;
         }
         
         @keyframes fadeIn {
@@ -258,7 +287,6 @@
             }
         }
         
-        /* Efectos de partículas decorativas */
         .particles {
             position: fixed;
             top: 0;
@@ -293,7 +321,6 @@
             }
         }
         
-        /* Responsive */
         @media (max-width: 768px) {
             .player-card {
                 flex-direction: column;
@@ -314,7 +341,6 @@
     </style>
 </head>
 <body>
-    <!-- Partículas decorativas de fondo -->
     <div class="particles" id="particles"></div>
     
     <div class="container">
@@ -324,20 +350,15 @@
         </header>
 
         <div class="content">
-            {{-- ✅ Mensaje de éxito --}}
             @if (session('success'))
                 <div class="alert">
                     {{ session('success') }}
                 </div>
             @endif
 
-            {{-- 🏠 Botón para volver al menú principal (ESTILO ACTUALIZADO) --}}
             <a href="{{ url('/') }}" class="btn-menu">Volver al Menú Principal</a>
-
-            {{-- ➕ Enlace para crear nuevo jugador --}}
             <a href="{{ route('jugadores.create') }}" class="btn-primary">Nuevo jugador</a>
 
-            {{-- 📋 Lista de jugadores --}}
             @if ($jugadores->isEmpty())
                 <div class="empty-state">
                     <div class="empty-state-icon">😢</div>
@@ -355,11 +376,15 @@
                                 </div>
                             </div>
                             <div class="player-actions">
-                                <form action="{{ route('jugadores.destroy', $jugador->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn-danger">Eliminar</button>
-                                </form>
+                                <!-- 🆕 BOTÓN DE EDITAR -->
+                                <a href="{{ route('jugadores.edit', $jugador->id) }}" class="btn-edit">
+                                    Editar
+                                </a>
+                                
+                                <!-- 🆕 BOTÓN DE ELIMINAR (AHORA ES UN ENLACE) -->
+                                <a href="{{ route('jugadores.delete', $jugador->id) }}" class="btn-delete">
+                                    Eliminar
+                                </a>
                             </div>
                         </li>
                     @endforeach
@@ -369,7 +394,6 @@
     </div>
 
     <script>
-        // Crear partículas decorativas
         document.addEventListener('DOMContentLoaded', function() {
             const particlesContainer = document.getElementById('particles');
             const particleCount = 20;
@@ -378,7 +402,6 @@
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
                 
-                // Tamaño y posición aleatoria
                 const size = Math.random() * 20 + 5;
                 const posX = Math.random() * 100;
                 const delay = Math.random() * 15;
