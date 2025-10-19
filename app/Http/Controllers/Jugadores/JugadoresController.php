@@ -24,7 +24,6 @@ class JugadoresController extends Controller
     // 💾 Guarda un nuevo jugador en la base de datos
     public function store(Request $request)
     {
-        // ✅ Validación de campos
         $validatedData = $request->validate([
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
@@ -38,7 +37,6 @@ class JugadoresController extends Controller
             'edad.min' => 'La edad debe ser mayor que 0.',
         ]);
 
-        // 🧩 Crea el jugador
         Jugador::create($validatedData);
 
         return redirect()->route('jugadores.index')
@@ -55,7 +53,6 @@ class JugadoresController extends Controller
     // 🔄 Actualiza un jugador en la base de datos
     public function update(Request $request, $id)
     {
-        // ✅ Validación de campos (igual que en store)
         $validatedData = $request->validate([
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
@@ -69,7 +66,6 @@ class JugadoresController extends Controller
             'edad.min' => 'La edad debe ser mayor que 0.',
         ]);
 
-        // 🔍 Busca el jugador y actualiza
         $jugador = Jugador::findOrFail($id);
         $jugador->update($validatedData);
 
@@ -77,13 +73,23 @@ class JugadoresController extends Controller
                          ->with('success', 'Jugador actualizado correctamente.');
     }
 
-    // ❌ Elimina un jugador
+    // 🆕 Muestra la página de confirmación de eliminación
+       public function confirmDelete($id)
+    {
+        $jugador = Jugador::findOrFail($id);
+        return view('jugadores.delete', compact('jugador'));
+    }
+    
+    /**
+     * Eliminar el jugador
+     */
     public function destroy($id)
     {
         $jugador = Jugador::findOrFail($id);
         $jugador->delete();
-
+        
         return redirect()->route('jugadores.index')
-                         ->with('success', 'Jugador eliminado correctamente.');
+            ->with('success', 'Jugador eliminado correctamente');
     }
+
 }

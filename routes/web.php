@@ -53,23 +53,15 @@ Route::get('/estudiantes/{id}/delete', [EstudiantesController::class, 'delete'])
 
 
 
-// Lista de jugadores
 Route::get('/jugadores', [JugadoresController::class, 'index'])->name('jugadores.index');
-
-// Mostrar formulario de creación
 Route::get('/jugadores/create', [JugadoresController::class, 'create'])->name('jugadores.create');
-
-// Guardar nuevo jugador
 Route::post('/jugadores', [JugadoresController::class, 'store'])->name('jugadores.store');
-
-// Mostrar jugador específico (opcional)
 Route::get('/jugadores/{id}', [JugadoresController::class, 'show'])->name('jugadores.show');
-
-// Mostrar formulario de edición
 Route::get('/jugadores/{id}/edit', [JugadoresController::class, 'edit'])->name('jugadores.edit');
-
-// Actualizar jugador
 Route::put('/jugadores/{id}', [JugadoresController::class, 'update'])->name('jugadores.update');
 
-// Eliminar jugador
+// Ruta para confirmación de eliminación
+Route::get('/jugadores/{id}/delete', [JugadoresController::class, 'confirmDelete'])->name('jugadores.confirm-delete');
+
+// Ruta para eliminar jugador
 Route::delete('/jugadores/{id}', [JugadoresController::class, 'destroy'])->name('jugadores.destroy');

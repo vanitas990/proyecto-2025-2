@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrar Nuevo Jugador - Matrix</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Confirmar Eliminación - Matrix</title>
     <style>
         :root {
             --matrix-green: #00ff41;
@@ -24,12 +23,12 @@
             color: var(--matrix-green);
             font-family: 'Courier New', monospace;
             min-height: 100vh;
-            overflow-x: hidden;
+            overflow: hidden;
             position: relative;
-            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 20px;
         }
         
         /* Efecto de lluvia de código Matrix */
@@ -41,7 +40,7 @@
             height: 100%;
             pointer-events: none;
             z-index: -1;
-            opacity: 0.2;
+            opacity: 0.3;
         }
         
         .matrix-character {
@@ -64,20 +63,20 @@
             }
         }
         
-        .container {
-            max-width: 900px;
-            width: 100%;
+        .confirmation-container {
             background-color: rgba(0, 0, 0, 0.85);
             border: 1px solid var(--matrix-green);
             border-radius: 5px;
-            overflow: hidden;
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
             box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
             position: relative;
-            display: flex;
-            flex-direction: column;
+            overflow: hidden;
+            z-index: 10;
         }
         
-        .container::before {
+        .confirmation-container::before {
             content: "";
             position: absolute;
             top: 0;
@@ -98,93 +97,57 @@
             }
         }
         
-        .header {
-            background-color: var(--matrix-darker);
-            padding: 30px;
+        .warning-icon {
             text-align: center;
-            position: relative;
-            overflow: hidden;
-            border-bottom: 1px solid var(--matrix-green);
-        }
-        
-        h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
+            font-size: 3rem;
+            margin-bottom: 20px;
             color: var(--matrix-green);
             text-shadow: 0 0 10px var(--matrix-green);
         }
         
-        .header-subtitle {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-        
-        .form-container {
-            padding: 30px;
-        }
-        
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
-        }
-        
-        .form-group {
+        h2 {
+            text-align: center;
             margin-bottom: 20px;
-            position: relative;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: bold;
-            color: var(--matrix-green);
+            font-size: 1.8rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-        }
-        
-        label i {
-            margin-right: 10px;
+            letter-spacing: 2px;
             color: var(--matrix-green);
         }
         
-        input {
-            width: 100%;
+        p {
+            margin-bottom: 25px;
+            line-height: 1.6;
+            text-align: center;
+        }
+        
+        .player-info {
             background-color: var(--matrix-darker);
-            color: var(--matrix-green);
             border: 1px solid var(--matrix-green);
-            padding: 15px 15px 15px 45px;
-            font-family: 'Courier New', monospace;
-            font-size: 1rem;
-            transition: all 0.3s ease;
+            padding: 15px;
+            margin: 20px 0;
             border-radius: 3px;
+            position: relative;
+            overflow: hidden;
         }
         
-        input:focus {
-            outline: none;
-            box-shadow: 0 0 10px var(--matrix-green);
-            background-color: rgba(0, 60, 0, 0.3);
-        }
-        
-        .input-icon {
+        .player-info::before {
+            content: ">";
             position: absolute;
-            left: 15px;
-            top: 42px;
+            left: 5px;
+            top: 15px;
             color: var(--matrix-green);
+        }
+        
+        .player-detail {
+            margin-left: 20px;
+            margin-bottom: 8px;
         }
         
         .button-group {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            justify-content: center;
+            gap: 20px;
             margin-top: 30px;
-            flex-wrap: wrap;
-            gap: 15px;
         }
         
         .btn-matrix {
@@ -200,9 +163,6 @@
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
-            display: inline-flex;
-            align-items: center;
-            text-decoration: none;
         }
         
         .btn-matrix:hover {
@@ -211,47 +171,32 @@
             box-shadow: 0 0 10px var(--matrix-green);
         }
         
-        .btn-submit {
-            background-color: transparent;
-            color: var(--matrix-green);
-            border: 1px solid var(--matrix-green);
-        }
-        
-        .btn-submit:hover {
-            background-color: var(--matrix-green);
-            color: var(--matrix-black);
-        }
-        
-        .btn-back {
+        .btn-cancel {
             background-color: transparent;
             color: #ff3333;
             border: 1px solid #ff3333;
         }
         
-        .btn-back:hover {
+        .btn-cancel:hover {
             background-color: #ff3333;
             color: var(--matrix-black);
             box-shadow: 0 0 10px #ff3333;
         }
         
-        .btn-matrix i {
-            margin-right: 8px;
-        }
-        
-        .terminal-effect {
-            position: relative;
-        }
-        
-        .terminal-effect::before {
-            content: "> ";
-            position: absolute;
-            left: 10px;
-            top: 15px;
+        .btn-confirm {
+            background-color: transparent;
             color: var(--matrix-green);
-            font-weight: bold;
+            border: 1px solid var(--matrix-green);
         }
         
-        .glitch-text {
+        .btn-confirm:hover {
+            background-color: var(--matrix-green);
+            color: var(--matrix-black);
+            box-shadow: 0 0 10px var(--matrix-green);
+        }
+        
+        .glitch-effect {
+            position: relative;
             animation: glitch 2s infinite;
         }
         
@@ -265,22 +210,12 @@
         }
         
         @media (max-width: 768px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            
             .button-group {
                 flex-direction: column;
-                align-items: stretch;
             }
             
-            .btn-matrix {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .container {
-                margin: 10px;
+            .confirmation-container {
+                padding: 20px;
             }
         }
     </style>
@@ -289,59 +224,23 @@
     <!-- Efecto de lluvia de código Matrix -->
     <div class="matrix-rain" id="matrixRain"></div>
     
-    <div class="container">
-        <div class="header">
-            <h1 class="glitch-text">REGISTRO DE JUGADOR</h1>
-            <p class="header-subtitle">SISTEMA DE GESTIÓN MATRIX</p>
+    <div class="confirmation-container">
+        <div class="warning-icon">⚠️</div>
+        <h2 class="glitch-effect">CONFIRMACIÓN REQUERIDA</h2>
+        <p>ESTA ACCIÓN NO SE PUEDE DESHACER. EL JUGADOR SERÁ ELIMINADO PERMANENTEMENTE.</p>
+        
+        <div class="player-info">
+            <div class="player-detail"><strong>{{ $jugador->nombre }} {{ $jugador->apellido }}</strong></div>
+            <div class="player-detail">EDAD: {{ $jugador->edad }} | ROL: {{ $jugador->rol ?? 'SIN ROL' }}</div>
         </div>
         
-        <div class="form-container">
-            <form action="{{ route('jugadores.store') }}" method="POST">
+        <div class="button-group">
+            <a href="{{ route('jugadores.index') }}" class="btn-matrix btn-cancel">CANCELAR</a>
+            
+            <form action="{{ route('jugadores.destroy', $jugador->id) }}" method="POST" style="display: inline;">
                 @csrf
-                
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="nombre"><i class="fas fa-user"></i>NOMBRE:</label>
-                        <div class="input-icon">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <input type="text" id="nombre" name="nombre" placeholder="INGRESA TU NOMBRE" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="apellido"><i class="fas fa-user-tag"></i>APELLIDO:</label>
-                        <div class="input-icon">
-                            <i class="fas fa-user-tag"></i>
-                        </div>
-                        <input type="text" id="apellido" name="apellido" placeholder="INGRESA TU APELLIDO" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="edad"><i class="fas fa-birthday-cake"></i>EDAD:</label>
-                        <div class="input-icon">
-                            <i class="fas fa-birthday-cake"></i>
-                        </div>
-                        <input type="number" id="edad" name="edad" placeholder="INGRESA TU EDAD" min="1" max="99" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="rol"><i class="fas fa-star"></i>ROL:</label>
-                        <div class="input-icon">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <input type="text" id="rol" name="rol" placeholder="EJ: DELANTERO, PORTERO, ETC.">
-                    </div>
-                </div>
-                
-                <div class="button-group">
-                    <button type="submit" class="btn-matrix btn-submit">
-                        <i class="fas fa-save"></i>GUARDAR JUGADOR
-                    </button>
-                    
-                    <a href="{{ route('jugadores.index') }}" class="btn-matrix btn-back">
-                        <i class="fas fa-arrow-left"></i>VOLVER A LA LISTA
-                    </a>
-                </div>
+                @method('DELETE')
+                <button type="submit" class="btn-matrix btn-confirm">CONFIRMAR ELIMINACIÓN</button>
             </form>
         </div>
     </div>
